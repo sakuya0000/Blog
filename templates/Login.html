@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<style>
+        html,body{text-align:center;margin:0 auto;}
+</style>
+<body>
+    <h1>登录页面</h1>
+    <form method = 'post' enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        用户名:{{ userform.name }}
+        {% if errors %}
+            {{ errors }}
+        {% endif %}
+    </div>
+    <br>
+    <div>
+        密码：{{ userform.password }}
+        {% if userform.password.errors %}
+            <span class="error-msg">{{ password.errors }}</span>
+        {% endif %}
+    </div>
+<br>
+    <input type="submit" value = "Login">
+</form>
+</body>
+</html>

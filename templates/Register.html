@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+</head>
+<style>
+        html,body{text-align:center;margin:0 auto;}
+</style>
+<body>
+    <h1>注册页面</h1>
+    <form method = "post">
+    {% csrf_token %}
+    {{ userform.as_p }}
+    <input type="submit" value = "Regist">
+</form>
+</body>
+</html>
