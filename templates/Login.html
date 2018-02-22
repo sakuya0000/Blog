@@ -9,22 +9,9 @@
 </style>
 <body>
     <h1>登录页面</h1>
-    <form method = 'post' enctype="multipart/form-data">
+    <form method = 'post'>
     {% csrf_token %}
-    <div>
-        用户名:{{ userform.name }}
-        {% if errors %}
-            {{ errors }}
-        {% endif %}
-    </div>
-    <br>
-    <div>
-        密码：{{ userform.password }}
-        {% if userform.password.errors %}
-            <span class="error-msg">{{ password.errors }}</span>
-        {% endif %}
-    </div>
-<br>
+    {{ userform.as_p }}
     <input type="submit" value = "Login">
 </form>
 </body>

@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^login/$', login),
     url(r'^regist/$', regist),
     url(r'^admin/', admin.site.urls),
+    url(r'^index/$', get_blogs),
+    url(r'^detail/(\d+)/$', get_details, name='blog_get_detail')
 ]
