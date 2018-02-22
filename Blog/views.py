@@ -46,19 +46,24 @@ def login(request):
     return render_to_response('Login.html', {'userform': userform})
 
 
+@csrf_exempt
 def get_blogs(request):
     username = request.session.get('username')
     if username:
-        blogs_list = Blog.objects.all().order_by('-pub')#获得所有的博客按时间排序
-        paginator = Paginator(blogs_list, 5)
-        page = request.GET.get('page')
-        try:
-            blogs = paginator.page(page)
-        except PageNotAnInteger:
-            blogs = paginator.page(1)
-        except EmptyPage:
-            blogs = paginator.page(paginator.num_pages)
-        return render_to_response('index.html', {'blogs': blogs})#传递context:blog参数到固定页面。
+        if request.method == 'POST':
+            request.session.clear()
+            return HttpResponseRedirect('/login')
+        else:
+            blogs_list = Blog.objects.all().order_by('-pub')#获得所有的博客按时间排序
+            paginator = Paginator(blogs_list, 5)
+            page = request.GET.get('page')
+            try:
+                blogs = paginator.page(page)
+            except PageNotAnInteger:
+                blogs = paginator.page(1)
+            except EmptyPage:
+                blogs = paginator.page(paginator.num_pages)
+            return render_to_response('index.html', {'blogs': blogs})#传递context:blog参数到固定页面。
     else:
         return HttpResponseRedirect('/login')
 
@@ -74,12 +79,17 @@ def get_details(request, blog_id):
         if request.method == 'GET':
             form = CommentForm()
         else:  #请求方法为Post
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                cleaned_data = form.cleaned_data
-                cleaned_data['blog'] = blog
-                cleaned_data['name'] = username
-                Comment.objects.create(**cleaned_data)
+            button = request.POST.get('submit')
+            if button == '提交':
+                form = CommentForm(request.POST)
+                if form.is_valid():
+                    cleaned_data = form.cleaned_data
+                    cleaned_data['blog'] = blog
+                    cleaned_data['name'] = username
+                    Comment.objects.create(**cleaned_data)
+            elif button == '返回':
+                return HttpResponseRedirect('/index')
+
         ctx = {
             'blog': blog,
             'comments': blog.comment_set.all().order_by('-pub'),

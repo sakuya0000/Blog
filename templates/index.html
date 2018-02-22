@@ -33,11 +33,15 @@
 </head>
 <body>
 <div class="header">
-    <h1 align="center">我的博客</h1>
+    <h1 align="center">博客</h1>
 </div>
 <h3 style="margin-bottom: -50px;font-size: x-large;">博客列表
 </h3>
+<form method="post">
+    {% csrf_token %}
 <hr/>
+    <input type="submit" value="注销" align="right">
+</form>
 {% for blog in blogs %}
 <div align="center" class="blog">
     <div class="title">

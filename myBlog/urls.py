@@ -18,7 +18,7 @@ from Blog.views import *
 from django.conf.urls import url
 
 urlpatterns = [
-    url(r'^login/$', login),
+    url(r'^login/$', login, name='login'),
     url(r'^regist/$', regist),
     url(r'^admin/', admin.site.urls),
     url(r'^index/$', get_blogs),
