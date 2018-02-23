@@ -19,3 +19,5 @@ class CommentForm(forms.Form):
         'required': '请填写您的评论内容!',
         'max_length': '评论内容太长咯'
     })
+
+

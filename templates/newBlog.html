@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create</title>
+</head>
+<body>
+<h1>新随笔</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br><br><br>
+    <div id="editor" style="min-width: 70px" >
+        <p>请输入内容</p>
+    </div>
+    <script type="text/javascript" src="{% static "Blog/wangEditor.js" %}"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        editor.create();
+
+        function get() {
+            var text = document.getElementById('txt');
+            text.value = editor.txt.html();
+        }
+    </script>
+    <input type="hidden" name="text" value="" id="txt">
+    <br>
+    <button id="submit" onclick="get()" type="submit">提交</button>
+    </form>
+</body>
+</html>

@@ -98,3 +98,33 @@ def get_details(request, blog_id):
         return render(request, 'blog_details.html', ctx)#######
     else:
         return HttpResponseRedirect('/login')
+
+
+@csrf_exempt
+def myBlog(request):
+    visitname = request.session.get('visitname')
+    username = request.session.get('username')
+    if username and visitname:
+        if request.method == 'POST':
+            return HttpResponseRedirect('/newBlog')
+        else:
+            blog_list = Blog.objects.filter(author=visitname).order_by('-pub')
+            paginator = Paginator(blog_list, 5)
+            page = request.GET.get('page')
+            try:
+                blogs = paginator.page(page)
+            except PageNotAnInteger:
+                blogs = paginator.page(1)
+            except EmptyPage:
+                blogs = paginator.page(paginator.num_pages)
+            return render_to_response('myBlog.html', {'blogs': blogs})
+    else:
+        return HttpResponseRedirect('/login')
+
+
+@csrf_exempt
+def newBlog(request):
+    if request.method == 'POST':
+        content = str(request.POST['text'])
+        return HttpResponse(content+'asdassdas')
+    return render_to_response('newBlog.html')
