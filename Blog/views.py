@@ -124,7 +124,35 @@ def myBlog(request):
 
 @csrf_exempt
 def newBlog(request):
-    if request.method == 'POST':
-        content = str(request.POST['text'])
-        return HttpResponse(content+'asdassdas')
-    return render_to_response('newBlog.html')
+    visitname = request.session.get('visitname')
+    username = request.session.get('username')
+    if username and visitname:
+        downlist = Category.objects.filter(username=username)
+        if request.method == 'POST':
+            button = request.POST.get('submit')
+            if button == "提交博客":
+                content = str(request.POST['text'])
+                title = request.POST.get('title')
+                category = request.POST.get('category')
+                if title == "":
+                    return HttpResponse('标题不能为空')
+                elif content == "":
+                    return HttpResponse('内容不能为空')
+                elif category == "无":
+                    return HttpResponse('请选择分类')
+                else:
+                    id = Category.objects.get(name=category)
+                    Blog.objects.create(title=title, content=content, author=username, category=id)
+                    return HttpResponseRedirect('/myBlog')
+            elif button == "新分类":
+                category = request.POST.get('cateName')
+                if category == "":
+                    return HttpResponse('分类名不能为空')
+                isExsited = Category.objects.get(name=category, username=username)
+                if isExsited:
+                    return HttpResponse('已有分类名')
+                Category.objects.create(name=category, username=username)
+                return render_to_response('newBlog.html', {'form': request.POST, 'downlist': downlist})
+        return render_to_response('newBlog.html', {'downlist': downlist})
+    else:
+        return HttpResponseRedirect('/login')

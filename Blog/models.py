@@ -14,6 +14,7 @@ class User(models.Model):
 
 class Category(models.Model):
     name = models.CharField('名称', max_length=20)
+    username = models.CharField('所属人', max_length=10)
 
     def __unicode__(self):
         return self.name
@@ -24,7 +25,7 @@ class Blog(models.Model):
     author = models.CharField('作者', max_length=16)
     content = models.TextField('内容')
     pub = models.DateField('发布时间', auto_now_add=True)#添加时自动加入现在时间
-    category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE)#外键与Category表相连,多对一（博客--类别）
+    category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE)#外键与Category表相连
 
     def __unicode__(self):
         return self.title

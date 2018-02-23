@@ -10,6 +10,10 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <br><br><br>
+    <label>
+    <input type="text" style="width: 1500px; height: 30px; font-size: 25px" name="title" placeholder="标题">
+        </label>
+    <br><br>
     <div id="editor" style="min-width: 70px" >
         <p>请输入内容</p>
     </div>
@@ -21,12 +25,23 @@
 
         function get() {
             var text = document.getElementById('txt');
-            text.value = editor.txt.html();
+            text.value = editor.txt.text();
         }
     </script>
     <input type="hidden" name="text" value="" id="txt">
-    <br>
-    <button id="submit" onclick="get()" type="submit">提交</button>
+    <br><br><br>
+    <input type="text" name="cateName" placeholder="请输入分类名称">
+    <br><br>
+    <input type="submit" name="submit" value="新分类"><br><br>
+    <label>
+    <select name="category">
+        {% for one in downlist %}
+            <option value="{{ one.name }}">{{ one.name }}</option>
+        {% endfor %}
+        <option value="无" selected="selected">请选择分类</option>
+    </select>
+    </label><br><br>
+    <button id="submit" onclick="get()" type="submit" name="submit" value="提交博客" style="background-color: #4a86e8">提交博客</button>
     </form>
 </body>
 </html>
