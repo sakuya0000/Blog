@@ -30,7 +30,7 @@ def regist(request):
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        userform = Users(request.POST)
+        userform = LoginForm(request.POST)
         if userform.is_valid():
             username = userform.cleaned_data['name']
             password = userform.cleaned_data['password']
@@ -42,7 +42,7 @@ def login(request):
             else:
                 return HttpResponse('用户名或密码错误')
     else:
-        userform = Users()
+        userform = LoginForm()
     return render_to_response('Login.html', {'userform': userform})
 
 

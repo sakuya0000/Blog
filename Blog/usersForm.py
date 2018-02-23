@@ -21,3 +21,11 @@ class CommentForm(forms.Form):
     })
 
 
+class LoginForm(forms.Form):
+    name = forms.CharField(label='用户名', max_length=12, error_messages={
+        'required': '请填写您的用户名',
+    })
+    password = forms.CharField(label='密码', max_length=16, widget=forms.PasswordInput(), error_messages={
+        'required': '请填写',
+    })
+
