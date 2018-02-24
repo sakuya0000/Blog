@@ -1,0 +1,4 @@
+Django			2.0.2
+mysqlclient		1.3.12
+python			3.6.4
+MySQL			5.7.21
